@@ -1,7 +1,5 @@
 TODO
-- ADD async repositories
 - ADD unittests
-- FIX unitwork
 - TEST docker
 - TEST client
 

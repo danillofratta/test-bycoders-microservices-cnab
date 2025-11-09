@@ -1,14 +1,3 @@
-using System.IO;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Cnab.Api.Application.Abstractions;
-using Cnab.Api.Application.Transactions.PublishCnabFile;
-using FluentAssertions;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
-using Moq;
-using Xunit;
 
 namespace ApiCnab.Tests.Application;
 public class PublishCnabFileHandlerTests

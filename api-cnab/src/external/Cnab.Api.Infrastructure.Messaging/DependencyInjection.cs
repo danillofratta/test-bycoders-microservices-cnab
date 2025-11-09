@@ -1,4 +1,3 @@
-using Cnab.Api.Application.Abstractions;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,7 +13,7 @@ public static class DependencyInjection
                 cfgMq.Host(new Uri("amqp://guest:guest@localhost:5672/"));
             });
         });
-        services.AddScoped<IMessagingPublisher, MassTransitPublisher>();
+        
         return services;
     }
 }

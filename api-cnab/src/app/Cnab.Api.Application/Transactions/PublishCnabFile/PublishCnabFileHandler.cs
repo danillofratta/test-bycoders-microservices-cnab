@@ -1,4 +1,3 @@
-using Cnab.Api.Application.Abstractions;
 using Cnab.Domain.Events;
 using MassTransit;
 using MediatR;

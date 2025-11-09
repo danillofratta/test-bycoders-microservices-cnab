@@ -6,5 +6,4 @@ public interface IStoreRepository
 {
     Task<Store?> FindByNameAsync(string name, CancellationToken ct);
     Task AddAsync(Store store, CancellationToken ct);
-    Task AddTransactionAsync(Transaction tx, CancellationToken ct);
 }

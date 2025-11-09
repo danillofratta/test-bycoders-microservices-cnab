@@ -4,19 +4,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Cnab.Consumer.Infrastructure.Persistence.Repositories;
 
-public sealed class StoreRepository : IStoreRepository
+public sealed class TransactionRepository : ITransactionRepository
 {
     private readonly AppDbContext _db;
 
-    public StoreRepository(AppDbContext db)
+    public TransactionRepository(AppDbContext db)
     {
         _db = db;
     }
 
     public Task<Store?> FindByNameAsync(string name, CancellationToken ct) => _db.Stores.FirstOrDefaultAsync(s => s.Name == name, ct);
 
-    public async Task AddAsync(Store store, CancellationToken ct)
+    public async Task AddAsync(Transaction transaction, CancellationToken ct)
     {
-        await _db.Stores.AddAsync(store);        
+        await _db.Transactions.AddAsync(transaction);        
     }
 }

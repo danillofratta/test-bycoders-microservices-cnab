@@ -1,4 +1,5 @@
 using Cnab.Consumer.Application.Abstractions;
+using Cnab.Consumer.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,9 +12,10 @@ public static class DependencyInjection
     {
         var cs = cfg.GetConnectionString("Postgres") ?? "Host=localhost;Port=5432;Database=cnab_consumer;Username=admin;Password=root";
         services.AddDbContext<AppDbContext>(o => o.UseNpgsql(cs).UseSnakeCaseNamingConvention());
-        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<AppDbContext>());
-        services.AddScoped<Repositories.StoreRepository>();
-        services.AddScoped<IStoreRepository>(sp => sp.GetRequiredService<Repositories.StoreRepository>());
+
+        services.AddScoped<IUnitOfWork, UnitOfWork>();        
+        services.AddScoped<IStoreRepository, StoreRepository>();
+        services.AddScoped<ITransactionRepository, TransactionRepository>();
         return services;
     }
 }

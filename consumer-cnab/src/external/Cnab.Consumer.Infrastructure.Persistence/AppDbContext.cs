@@ -4,7 +4,7 @@ using Cnab.Consumer.Application.Abstractions;
 
 namespace Cnab.Consumer.Infrastructure.Persistence;
 
-public class AppDbContext : DbContext, IUnitOfWork
+public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 

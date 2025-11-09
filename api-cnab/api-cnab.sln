@@ -1,0 +1,69 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cnab.Api.Application", "src\app\Cnab.Api.Application\Cnab.Api.Application.csproj", "{AA111111-1111-1111-1111-111111111111}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cnab.Api.Domain", "src\app\Cnab.Api.Domain\Cnab.Api.Domain.csproj", "{AA222222-2222-2222-2222-222222222222}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cnab.Api.Presentation", "src\app\Cnab.Api.Presentation\Cnab.Api.Presentation.csproj", "{AA333333-3333-3333-3333-333333333333}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cnab.Api.Infrastructure.Messaging", "src\external\Cnab.Api.Infrastructure.Messaging\Cnab.Api.Infrastructure.Messaging.csproj", "{AA444444-4444-4444-4444-444444444444}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cnab.Api.Infrastructure.Persistence", "src\external\Cnab.Api.Infrastructure.Persistence\Cnab.Api.Infrastructure.Persistence.csproj", "{AA555555-5555-5555-5555-555555555555}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{922FD492-B9FB-49EB-80EB-85748F2EA510}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "app", "app", "{4BC638E9-BE37-4DA8-9E88-CB93A7756B04}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "external", "external", "{5E99E872-6533-4BE9-B0E8-EB59B2B41F12}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "api-cnab-tests", "test\api-cnab-tests\api-cnab-tests.csproj", "{617C5250-788A-F349-55CC-3AD77B292AFB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AA111111-1111-1111-1111-111111111111}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA111111-1111-1111-1111-111111111111}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA111111-1111-1111-1111-111111111111}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA111111-1111-1111-1111-111111111111}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA222222-2222-2222-2222-222222222222}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA222222-2222-2222-2222-222222222222}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA222222-2222-2222-2222-222222222222}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA222222-2222-2222-2222-222222222222}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA333333-3333-3333-3333-333333333333}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA333333-3333-3333-3333-333333333333}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA333333-3333-3333-3333-333333333333}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA333333-3333-3333-3333-333333333333}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA444444-4444-4444-4444-444444444444}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA444444-4444-4444-4444-444444444444}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA444444-4444-4444-4444-444444444444}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA444444-4444-4444-4444-444444444444}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA555555-5555-5555-5555-555555555555}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA555555-5555-5555-5555-555555555555}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA555555-5555-5555-5555-555555555555}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA555555-5555-5555-5555-555555555555}.Release|Any CPU.Build.0 = Release|Any CPU
+		{617C5250-788A-F349-55CC-3AD77B292AFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{617C5250-788A-F349-55CC-3AD77B292AFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{617C5250-788A-F349-55CC-3AD77B292AFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{617C5250-788A-F349-55CC-3AD77B292AFB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AA111111-1111-1111-1111-111111111111} = {4BC638E9-BE37-4DA8-9E88-CB93A7756B04}
+		{AA222222-2222-2222-2222-222222222222} = {4BC638E9-BE37-4DA8-9E88-CB93A7756B04}
+		{AA333333-3333-3333-3333-333333333333} = {4BC638E9-BE37-4DA8-9E88-CB93A7756B04}
+		{AA444444-4444-4444-4444-444444444444} = {5E99E872-6533-4BE9-B0E8-EB59B2B41F12}
+		{AA555555-5555-5555-5555-555555555555} = {5E99E872-6533-4BE9-B0E8-EB59B2B41F12}
+		{4BC638E9-BE37-4DA8-9E88-CB93A7756B04} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{5E99E872-6533-4BE9-B0E8-EB59B2B41F12} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{617C5250-788A-F349-55CC-3AD77B292AFB} = {922FD492-B9FB-49EB-80EB-85748F2EA510}
+	EndGlobalSection
+EndGlobal

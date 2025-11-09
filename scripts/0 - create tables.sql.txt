@@ -1,0 +1,19 @@
+CREATE TABLE IF NOT EXISTS stores (
+  id    SERIAL PRIMARY KEY,
+  name  VARCHAR(100) NOT NULL,
+  owner VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS transactions (
+  id            SERIAL PRIMARY KEY,
+  type          INTEGER NOT NULL,
+  nature        VARCHAR(20) NOT NULL,
+  value         NUMERIC(18,2) NOT NULL,
+  signed_value  NUMERIC(18,2) NOT NULL,
+  cpf           VARCHAR(11) NOT NULL,
+  card          VARCHAR(12) NOT NULL,
+  occurred_at   TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+  store_id      INTEGER NOT NULL REFERENCES stores(id) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS ix_transactions_store_id ON transactions(store_id);

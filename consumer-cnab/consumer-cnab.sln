@@ -1,0 +1,69 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cnab.Consumer.Application", "src\app\Cnab.Consumer.Application\Cnab.Consumer.Application.csproj", "{CC111111-1111-1111-1111-111111111111}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cnab.Consumer.Domain", "src\app\Cnab.Consumer.Domain\Cnab.Consumer.Domain.csproj", "{CC222222-2222-2222-2222-222222222222}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cnab.Consumer.Worker", "src\app\Cnab.Consumer.Worker\Cnab.Consumer.Worker.csproj", "{CC333333-3333-3333-3333-333333333333}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cnab.Consumer.Infrastructure.Messaging", "src\external\Cnab.Consumer.Infrastructure.Messaging\Cnab.Consumer.Infrastructure.Messaging.csproj", "{CC444444-4444-4444-4444-444444444444}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cnab.Consumer.Infrastructure.Persistence", "src\external\Cnab.Consumer.Infrastructure.Persistence\Cnab.Consumer.Infrastructure.Persistence.csproj", "{CC555555-5555-5555-5555-555555555555}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{BBC78286-64F4-4BEE-A022-0612EAA2B69D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "app", "app", "{CA9CBA51-B430-4515-8D18-9D4C218A06EE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "external", "external", "{E8E7434F-E676-4138-A2DF-6E514AF4DA97}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "consumer-cnab-tests", "test\consumer-cnab-tests\consumer-cnab-tests.csproj", "{87990965-0ECE-AFF8-B221-CC6D9813D394}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CC111111-1111-1111-1111-111111111111}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC111111-1111-1111-1111-111111111111}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC111111-1111-1111-1111-111111111111}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC111111-1111-1111-1111-111111111111}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC222222-2222-2222-2222-222222222222}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC222222-2222-2222-2222-222222222222}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC222222-2222-2222-2222-222222222222}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC222222-2222-2222-2222-222222222222}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC333333-3333-3333-3333-333333333333}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC333333-3333-3333-3333-333333333333}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC333333-3333-3333-3333-333333333333}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC333333-3333-3333-3333-333333333333}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC444444-4444-4444-4444-444444444444}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC444444-4444-4444-4444-444444444444}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC444444-4444-4444-4444-444444444444}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC444444-4444-4444-4444-444444444444}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC555555-5555-5555-5555-555555555555}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC555555-5555-5555-5555-555555555555}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC555555-5555-5555-5555-555555555555}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC555555-5555-5555-5555-555555555555}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87990965-0ECE-AFF8-B221-CC6D9813D394}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87990965-0ECE-AFF8-B221-CC6D9813D394}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87990965-0ECE-AFF8-B221-CC6D9813D394}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87990965-0ECE-AFF8-B221-CC6D9813D394}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CC111111-1111-1111-1111-111111111111} = {CA9CBA51-B430-4515-8D18-9D4C218A06EE}
+		{CC222222-2222-2222-2222-222222222222} = {CA9CBA51-B430-4515-8D18-9D4C218A06EE}
+		{CC333333-3333-3333-3333-333333333333} = {CA9CBA51-B430-4515-8D18-9D4C218A06EE}
+		{CC444444-4444-4444-4444-444444444444} = {E8E7434F-E676-4138-A2DF-6E514AF4DA97}
+		{CC555555-5555-5555-5555-555555555555} = {E8E7434F-E676-4138-A2DF-6E514AF4DA97}
+		{CA9CBA51-B430-4515-8D18-9D4C218A06EE} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{E8E7434F-E676-4138-A2DF-6E514AF4DA97} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{87990965-0ECE-AFF8-B221-CC6D9813D394} = {BBC78286-64F4-4BEE-A022-0612EAA2B69D}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><TargetFramework>net8.0</TargetFramework><Nullable>enable</Nullable><ImplicitUsings>enable</ImplicitUsings></PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="MassTransit" Version="8.5.5" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="8.5.5" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\app\Cnab.Consumer.Application\Cnab.Consumer.Application.csproj" />
+    <ProjectReference Include="..\..\app\Cnab.Consumer.Domain\Cnab.Consumer.Domain.csproj" />
+  </ItemGroup>
+</Project>

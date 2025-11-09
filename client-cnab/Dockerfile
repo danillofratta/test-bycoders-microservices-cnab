@@ -1,0 +1,9 @@
+FROM node:20-alpine AS build
+WORKDIR /app
+COPY package.json package-lock.json* ./
+RUN npm install
+COPY . .
+RUN npm run build
+FROM nginx:alpine
+COPY --from=build /app/dist/client-cnab/browser /usr/share/nginx/html
+RUN printf 'server {\n  listen 80;\n  location / { try_files $uri $uri/ /index.html; }\n  location /api/ { proxy_pass http://api:8080/; }\n}\n' > /etc/nginx/conf.d/default.conf

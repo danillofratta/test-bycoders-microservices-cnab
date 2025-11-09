@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup><TargetFramework>net8.0</TargetFramework><Nullable>enable</Nullable><ImplicitUsings>enable</ImplicitUsings></PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Cnab.Api.Application\Cnab.Api.Application.csproj" />
+    <ProjectReference Include="..\Cnab.Api.Domain\Cnab.Api.Domain.csproj" />
+    <ProjectReference Include="..\..\external\Cnab.Api.Infrastructure.Messaging\Cnab.Api.Infrastructure.Messaging.csproj" />
+    <ProjectReference Include="..\..\external\Cnab.Api.Infrastructure.Persistence\Cnab.Api.Infrastructure.Persistence.csproj" />
+  </ItemGroup>
+  <ItemGroup><PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" /></ItemGroup>
+</Project>

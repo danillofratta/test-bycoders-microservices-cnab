@@ -1,0 +1,20 @@
+using Cnab.Api.Application.Abstractions;
+using MassTransit;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+namespace Cnab.Api.Infrastructure.Messaging;
+public static class DependencyInjection
+{
+    public static IServiceCollection AddMessaging(this IServiceCollection services, IConfiguration cfg)
+    {
+        ArgumentNullException.ThrowIfNull(cfg);
+        
+        services.AddMassTransit(x => {
+            x.UsingRabbitMq((context, cfgMq) => {
+                cfgMq.Host(new Uri("amqp://guest:guest@localhost:5672/"));
+            });
+        });
+        services.AddScoped<IMessagingPublisher, MassTransitPublisher>();
+        return services;
+    }
+}

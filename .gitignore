@@ -1,0 +1,41 @@
+# ===============================
+# General
+# ===============================
+*.log
+*.tmp
+*.swp
+.DS_Store
+Thumbs.db
+
+# ===============================
+# Node / Angular
+# ===============================
+node_modules/
+dist/
+.angular/
+coverage/
+src/environments/*.ts
+!src/environments/environment.example.ts
+
+# ===============================
+# .NET
+# ===============================
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.vspscc
+*.vscode/
+*.dll
+*.exe
+*.pdb
+*.cache
+TestResults/
+
+# ===============================
+# Environment / Docker
+# ===============================
+.env
+.env.local
+docker-compose.override.yml

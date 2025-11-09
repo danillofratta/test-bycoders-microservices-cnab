@@ -1,0 +1,47 @@
+using Cnab.Consumer.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+using Cnab.Consumer.Application.Abstractions;
+
+namespace Cnab.Consumer.Infrastructure.Persistence;
+
+public class AppDbContext : DbContext, IUnitOfWork
+{
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+
+    public DbSet<Store> Stores => Set<Store>();
+    public DbSet<Transaction> Transactions => Set<Transaction>();
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {        
+        modelBuilder.Entity<Store>(e =>
+        {
+            e.ToTable("stores");
+            e.HasKey(x => x.Id);
+            e.Property(p => p.Name)
+                .HasMaxLength(100)
+                .IsRequired();
+            e.Property(p => p.Owner)
+                .HasMaxLength(100)
+                .IsRequired();
+        });
+
+        modelBuilder.Entity<Transaction>(e =>
+        {
+            e.ToTable("transactions");
+            e.HasKey(x => x.Id);
+            e.Property(p => p.Nature)
+                .HasMaxLength(20)
+                .IsRequired();
+            e.Property(p => p.Cpf)
+                .HasMaxLength(11)
+                .IsRequired();
+            e.Property(p => p.Card)
+                .HasMaxLength(12)
+                .IsRequired();
+
+            e.HasOne(p => p.Store)
+                .WithMany(s => s.Transactions)
+                .HasForeignKey(p => p.StoreId);
+        });
+    }
+}

@@ -74,7 +74,7 @@ Once all services are running, access:
 
 ### Upload CNAB Files
 1. Go to http://localhost:4201/upload
-2. Select a `.txt` or `.cnab` file
+2. Select a `.txt` or `.cnab` file in path docs
 3. Click "📤 Enviar Arquivo"
 4. Monitor the upload progress
 

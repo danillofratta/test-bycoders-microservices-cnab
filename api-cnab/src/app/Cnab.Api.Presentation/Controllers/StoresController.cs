@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Cnab.Api.Presentation.Controllers;
 
+/// <summary>
+/// Endpoint to manage stores.
+/// </summary>
 [ApiController]
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/[controller]")]

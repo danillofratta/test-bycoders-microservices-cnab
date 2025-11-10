@@ -6,6 +6,9 @@ using Microsoft.Extensions.Logging;
 
 namespace Cnab.Api.Presentation.Controllers;
 
+/// <summary>
+/// endpoint to manage transactions.
+/// </summary>
 [ApiController]
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/[controller]")]
@@ -47,6 +50,9 @@ public class TransactionsController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Upload file CNAB
+    /// </summary>
     [HttpPost]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(typeof(object), StatusCodes.Status200OK)]

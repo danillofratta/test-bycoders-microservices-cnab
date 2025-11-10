@@ -1,0 +1,47 @@
+<div class="store-list-container">
+  <div class="header">
+    <h1>🏪 Lista de Lojas</h1>
+    <button class="refresh-btn" (click)="refreshStores()" [disabled]="loading">
+      🔄 Atualizar
+    </button>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading" *ngIf="loading">
+    <p>Carregando lojas...</p>
+  </div>
+
+  <!-- Error -->
+  <div class="error" *ngIf="error && !loading">
+    <p>{{ error }}</p>
+    <button (click)="refreshStores()">Tentar Novamente</button>
+  </div>
+
+  <!-- Grid de Lojas -->
+  <div class="stores-grid" *ngIf="!loading && !error && stores.length > 0">
+    <table class="stores-table">
+      <thead>
+        <tr>
+          <th>Nome da Loja</th>
+          <th>Proprietário</th>
+          <th>Saldo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let store of stores; trackBy: trackByStoreName"
+            [class.negative-balance]="store.balance < 0">
+          <td class="store-name">{{ store.name }}</td>
+          <td class="owner-name">{{ store.owner }}</td>
+          <td class="balance-cell" [class]="getBalanceClass(store.balance)">
+            {{ formatCurrency(store.balance) }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Estado Vazio -->
+  <div class="empty-state" *ngIf="!loading && !error && stores.length === 0">
+    <p>🏪 Nenhuma loja encontrada</p>
+  </div>
+</div>

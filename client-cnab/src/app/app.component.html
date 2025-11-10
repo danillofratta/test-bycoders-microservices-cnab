@@ -1,1 +1,22 @@
-<router-outlet></router-outlet>
+<div class="app-container">
+  <nav class="main-nav">
+    <div class="nav-brand">
+      <h1>🏦 CNAB Manager</h1>
+    </div>
+    <div class="nav-links">
+      <a routerLink="/upload" routerLinkActive="active" class="nav-link">
+        📤 Upload de Arquivo
+      </a>
+      <a routerLink="/transactions/list" routerLinkActive="active" class="nav-link">
+        📋 Lista de Transações
+      </a>
+      <a routerLink="/stores/list" routerLinkActive="active" class="nav-link">
+        🏪 Lista de Lojas
+      </a>
+    </div>
+  </nav>
+  
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

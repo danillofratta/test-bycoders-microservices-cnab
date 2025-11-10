@@ -1,0 +1,59 @@
+<div class="transaction-list-container">
+  <div class="header">
+    <h1>📋 Lista de Transações</h1>
+    <button class="refresh-btn" (click)="refreshTransactions()" [disabled]="loading">
+      🔄 Atualizar
+    </button>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading" *ngIf="loading">
+    <p>Carregando transações...</p>
+  </div>
+
+  <!-- Error -->
+  <div class="error" *ngIf="error && !loading">
+    <p>{{ error }}</p>
+    <button (click)="refreshTransactions()">Tentar Novamente</button>
+  </div>
+
+  <!-- Grid de Transações -->
+  <div class="transactions-grid" *ngIf="!loading && !error && transactions.length > 0">
+    <table class="transactions-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Tipo</th>
+          <th>Natureza</th>
+          <th>Valor</th>
+          <th>CPF</th>
+          <th>Cartão</th>
+          <th>Loja</th>
+          <th>Proprietário</th>
+          <th>Data/Hora</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let transaction of transactions; trackBy: trackByTransactionId"
+            [class.negative-value]="getCorrectValue(transaction) < 0">
+          <td>{{ transaction.id }}</td>
+          <td>{{ transaction.type }}</td>
+          <td>{{ transaction.nature }}</td>
+          <td class="value-cell" [class.negative]="getCorrectValue(transaction) < 0">
+            {{ formatCurrency(getCorrectValue(transaction)) }}
+          </td>
+          <td>{{ transaction.cpf }}</td>
+          <td>{{ transaction.card }}</td>
+          <td>{{ transaction.storeName }}</td>
+          <td>{{ transaction.storeOwner }}</td>
+          <td>{{ formatDate(transaction.occurredAt) }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Estado Vazio -->
+  <div class="empty-state" *ngIf="!loading && !error && transactions.length === 0">
+    <p>📄 Nenhuma transação encontrada</p>
+  </div>
+</div>

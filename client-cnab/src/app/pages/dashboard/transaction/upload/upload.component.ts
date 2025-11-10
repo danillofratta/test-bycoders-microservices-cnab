@@ -1,7 +1,8 @@
 
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
-import { ApiUpload } from '../../../../domain/api/api-upload';
+import { ApiTransaction } from '../../../../../domain/api/api-transaction';
 
 interface UploadStatus {
   type: 'success' | 'error';
@@ -10,6 +11,8 @@ interface UploadStatus {
 
 @Component({
   selector: 'app-upload',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './upload.component.html',
   styleUrls: ['./upload.component.css']
 })
@@ -20,11 +23,11 @@ export class UploadComponent implements OnInit {
   public uploadStatus: UploadStatus | null = null;
 
   constructor(
-    private apiUpload: ApiUpload
+    private apiTransaction: ApiTransaction
   ) { }
 
   ngOnInit(): void {
-    // Inicialização do componente
+    
   }
 
   onFileSelected(event: Event): void {
@@ -75,7 +78,7 @@ export class UploadComponent implements OnInit {
     formData.append('file', this.selectedFile);
 
     try {
-      const uploadObservable = await this.apiUpload.Upload(formData);
+      const uploadObservable = await this.apiTransaction.Upload(formData);
       
       uploadObservable.subscribe({
         next: (event) => {

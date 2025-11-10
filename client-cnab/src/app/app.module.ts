@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AppRoutingModule } from './app-routing.module';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { AppComponent } from './app.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -20,30 +18,21 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
-import { ListSaleComponent } from './pages/dashboard/upload/list-sale/list-sale.component';
-import { UploadComponent } from './pages/dashboard/upload/upload.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MatOptionModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ShowErrorListComponent } from './components/show-error-list/show-error-list.component';
-import { ApiUpload } from '../domain/api/api-upload';
+import { ApiTransaction } from '../domain/api/api-transaction';
+import { ApiStore } from '../domain/api/api-store';
 
 @NgModule({
   declarations: [
-    AppComponent,
-
     DashboardComponent,
-
     LoadingSpinnerComponent,
-    
-    ShowErrorListComponent,
-
-    UploadComponent,
-    ListSaleComponent
+    ShowErrorListComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
 
@@ -65,8 +54,7 @@ import { ApiUpload } from '../domain/api/api-upload';
     MatOptionModule,
     MatAutocompleteModule    
   ],
-  providers: [provideAnimationsAsync(), ApiUpload],
-  bootstrap: [AppComponent]
+  providers: [provideAnimationsAsync(), ApiTransaction, ApiStore]
+
 })
-export class AppModule {
-}
+export class AppModule { }

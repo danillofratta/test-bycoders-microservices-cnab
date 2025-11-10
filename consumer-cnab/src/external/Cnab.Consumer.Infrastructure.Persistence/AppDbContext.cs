@@ -26,6 +26,12 @@ public class AppDbContext : DbContext
             e.Property(p => p.Card)
                 .HasMaxLength(12)
                 .IsRequired();
+            e.Property(t => t.OccurredAt)
+                .HasColumnType("timestamp with time zone")  
+                .HasConversion(
+                v => v.ToUniversalTime(),
+                v => DateTime.SpecifyKind(v, DateTimeKind.Utc)
+    );
         });
     }
 }

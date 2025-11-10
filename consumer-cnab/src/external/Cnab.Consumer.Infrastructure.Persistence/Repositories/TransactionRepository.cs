@@ -16,4 +16,19 @@ public sealed class TransactionRepository : ITransactionRepository
     {
         await _db.Transactions.AddAsync(transaction);        
     }
+
+    public async Task<bool> ExistsAsync(
+        int type, decimal value, string cpf, string card,
+        DateTime occurredAt, string storeName, string storeOwner,
+        CancellationToken ct)
+    {
+        return await _db.Transactions.AnyAsync(t =>
+            t.Type == type &&
+            t.Value == value &&
+            t.Cpf == cpf &&
+            t.Card == card &&
+            t.OccurredAt == occurredAt.ToUniversalTime() &&
+            t.StoreName == storeName &&
+            t.StoreOwner == storeOwner, ct);
+    }
 }

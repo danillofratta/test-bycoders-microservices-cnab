@@ -12,7 +12,7 @@ public static class DependencyInjection
             {
                 cfgMq.Host(new Uri("amqp://guest:guest@localhost:5672/"));
 
-                cfgMq.ReceiveEndpoint("cnab-lines", e => {
+                cfgMq.ReceiveEndpoint("cnab-line-queue", e => {
                     e.ConfigureConsumer<ProcessCnabLineConsumer>(context);
                 });
             });

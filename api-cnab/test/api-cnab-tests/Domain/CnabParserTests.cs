@@ -1,4 +1,3 @@
-using Cnab.Api.Domain.Services;
 using FluentAssertions;
 using Xunit;
 

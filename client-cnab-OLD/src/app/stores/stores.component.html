@@ -1,0 +1,29 @@
+<section class="stores-container">
+  <h2>🏪 Lojas e Saldo</h2>
+  <button (click)="load()" class="reload-button">🔄 Recarregar</button>
+  
+  <div class="table-wrapper">
+    <table class="stores-table">
+      <thead>
+        <tr>
+          <th class="store-name-header">🏷️ Loja</th>
+          <th class="store-balance-header">💰 Saldo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let store of stores()" class="store-row">
+          <td class="store-name">{{ store.name }}</td>
+          <td class="store-balance">R$ {{ store.balance | number:'1.2-2' }}</td>
+        </tr>
+        <tr *ngIf="stores().length === 0" class="no-data-row">
+          <td colspan="2" class="no-data">
+            <div class="no-data-content">
+              <span class="no-data-icon">📊</span>
+              <span class="no-data-text">Nenhuma loja encontrada</span>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

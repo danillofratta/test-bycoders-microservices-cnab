@@ -3,9 +3,12 @@ using Cnab.Consumer.Domain.Entities;
 
 namespace Cnab.Consumer.Domain.Services;
 
+public interface ICnabParser
+{
+    Transaction Parse(string line, out string store, out string owner);
+}
 public class CnabParser : ICnabParser
 {
-    // Slice seguro: não quebra se a linha for curta
     private static string SliceSafe(string s, int start, int endIncl)
     {
         if (string.IsNullOrEmpty(s))
@@ -14,7 +17,7 @@ public class CnabParser : ICnabParser
         int i = start - 1;
         if (i < 0) i = 0;
 
-        // garante comprimento mínimo
+        // minimum lenght
         if (s.Length < endIncl)
             s = s.PadRight(endIncl, ' ');
 
@@ -24,7 +27,7 @@ public class CnabParser : ICnabParser
 
     public Transaction Parse(string rawLine, out string storeName, out string storeOwner)
     {
-        // garante padding (cada linha deve ter 81 posições)
+        // ensures padding (each row must have 81 positions)
         var line = rawLine.Length < 81 ? rawLine.PadRight(81, ' ') : rawLine;
 
         var type = int.Parse(SliceSafe(line, 1, 1));
@@ -39,10 +42,10 @@ public class CnabParser : ICnabParser
         var val = decimal.Parse(cents, CultureInfo.InvariantCulture) / 100m;
         var dt = DateTime.ParseExact(date + time, "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
 
-        // UTC-3 conforme layout CNAB ByCoders
+        // UTC-3 layout CNAB ByCoders
         var when = new DateTimeOffset(dt, TimeSpan.FromHours(-3)).UtcDateTime;
 
-        // natureza e sinal
+        // signal
         var (nature, sign) = type switch
         {
             1 => ("Debit", +1),
@@ -57,6 +60,6 @@ public class CnabParser : ICnabParser
             _ => throw new ArgumentOutOfRangeException(nameof(type), $"Tipo de transação inválido: {type}")
         };
 
-        return new Transaction(type, nature, val, sign * val, cpf, card, when);
+        return Transaction.Create(type, nature, val, sign * val, cpf, card, when, storeName, storeOwner);
     }
 }

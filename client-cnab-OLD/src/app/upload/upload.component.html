@@ -1,0 +1,22 @@
+<div class="upload-container">
+  <h2>📁 Upload CNAB.txt</h2>
+  <div class="upload-form">
+    <input 
+      type="file" 
+      (change)="onFile($event)" 
+      accept=".txt"
+      class="file-input"
+    />
+    <button 
+      (click)="send()" 
+      [disabled]="!file()"
+      class="upload-button"
+    >
+      📤 Upload & Publicar
+    </button>
+  </div>
+  <div class="status-section">
+    <h3>Status:</h3>
+    <div class="status-display">{{ status() || 'Pronto para upload...' }}</div>
+  </div>
+</div>

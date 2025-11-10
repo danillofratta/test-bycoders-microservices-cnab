@@ -1,19 +1,23 @@
-CREATE TABLE IF NOT EXISTS stores (
-  id    SERIAL PRIMARY KEY,
-  name  VARCHAR(100) NOT NULL,
-  owner VARCHAR(100) NOT NULL
-);
+-- Table: public.transactions
 
-CREATE TABLE IF NOT EXISTS transactions (
-  id            SERIAL PRIMARY KEY,
-  type          INTEGER NOT NULL,
-  nature        VARCHAR(20) NOT NULL,
-  value         NUMERIC(18,2) NOT NULL,
-  signed_value  NUMERIC(18,2) NOT NULL,
-  cpf           VARCHAR(11) NOT NULL,
-  card          VARCHAR(12) NOT NULL,
-  occurred_at   TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-  store_id      INTEGER NOT NULL REFERENCES stores(id) ON DELETE CASCADE
-);
+-- DROP TABLE IF EXISTS public.transactions;
 
-CREATE INDEX IF NOT EXISTS ix_transactions_store_id ON transactions(store_id);
+CREATE TABLE IF NOT EXISTS public.transactions
+(
+    id integer NOT NULL DEFAULT nextval('transactions_id_seq'::regclass),
+    type integer NOT NULL,
+    nature character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    value numeric(18,2) NOT NULL,
+    signed_value numeric(18,2) NOT NULL,
+    cpf character varying(11) COLLATE pg_catalog."default" NOT NULL,
+    card character varying(12) COLLATE pg_catalog."default" NOT NULL,
+    occurred_at timestamp without time zone NOT NULL,
+    store_owner character varying COLLATE pg_catalog."default",
+    store_name character varying COLLATE pg_catalog."default",
+    CONSTRAINT transactions_pkey PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.transactions
+    OWNER to admin;

@@ -4,9 +4,7 @@ using Cnab.Consumer.Infrastructure.Persistence.Repositories;
 
 namespace Cnab.Consumer.Infrastructure.Persistence;
 
-public interface IUnitOfWork : IDisposable
-{
-    IStoreRepository StoreRepository { get; }
+public interface IUnitOfWork : IDisposable{    
     ITransactionRepository TransactionRepository { get; }
     Task<int> CompleteAsync();
 }
@@ -18,11 +16,9 @@ public class UnitOfWork : IUnitOfWork
     public UnitOfWork(AppDbContext context)
     {
         _context = context;
-        StoreRepository = new StoreRepository(_context);
         TransactionRepository = new TransactionRepository(_context);        
     }
 
-    public IStoreRepository StoreRepository { get; }
     public ITransactionRepository TransactionRepository { get; }
 
     public async Task<int> CompleteAsync() => await _context.SaveChangesAsync();

@@ -1,6 +1,4 @@
-using System;
-
-namespace Cnab.Api.Domain.Entities;
+namespace Cnab.Api.Domain;
 
 public class Transaction
 {
@@ -12,10 +10,10 @@ public class Transaction
     public string Cpf { get; private set; } = string.Empty;
     public string Card { get; private set; } = string.Empty;
     public DateTime OccurredAt { get; private set; }
-    public int StoreId { get; private set; }
-    public Store? Store { get; private set; }
+    public string StoreName { get; private set; } = string.Empty;
+    public string StoreOwner { get; private set; } = string.Empty;
 
-    public Transaction(int type, string nature, decimal value, decimal signedValue, string cpf, string card, DateTime when)
+    protected Transaction(int type, string nature, decimal value, decimal signedValue, string cpf, string card, DateTime occurredAt, string storeName, string storeOwner)
     {
         Type = type;
         Nature = nature;
@@ -23,6 +21,13 @@ public class Transaction
         SignedValue = signedValue;
         Cpf = cpf;
         Card = card;
-        OccurredAt = when;
+        OccurredAt = occurredAt;
+        StoreName = storeName;
+        StoreOwner = storeOwner;
+    }
+
+    public static Transaction Create(int type, string nature, decimal value, decimal signedValue, string cpf, string card, DateTime when, string storeName, string storeOwner)
+    {
+        return new Transaction(type, nature, value, signedValue, cpf, card, when, storeName, storeOwner);
     }
 }

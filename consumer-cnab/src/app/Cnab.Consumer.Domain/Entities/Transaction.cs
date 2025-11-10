@@ -10,10 +10,10 @@ public class Transaction
     public string Cpf { get; private set; } = string.Empty;
     public string Card { get; private set; } = string.Empty;
     public DateTime OccurredAt { get; private set; }
-    public int StoreId { get; private set; }
-    public Store? Store { get; private set; }
+    public string StoreName { get; private set; } = string.Empty;
+    public string StoreOwner { get; private set; } = string.Empty;
 
-    public Transaction(int type, string nature, decimal value, decimal signedValue, string cpf, string card, DateTime occurredAt)
+    protected Transaction(int type, string nature, decimal value, decimal signedValue, string cpf, string card, DateTime occurredAt, string storeName, string storeOwner)
     {
         Type = type;
         Nature = nature;
@@ -22,15 +22,12 @@ public class Transaction
         Cpf = cpf;
         Card = card;
         OccurredAt = occurredAt;
-    }    
-
-    public void SetIdStore(int storeId)
-    {
-        this.StoreId = storeId;
+        StoreName = storeName;
+        StoreOwner = storeOwner;
     }
 
-    public void SetStore(Store store)
+    public static Transaction Create(int type, string nature, decimal value, decimal signedValue, string cpf, string card, DateTime when, string storeName, string storeOwner)
     {
-        this.Store = store;
+        return new Transaction(type, nature, value, signedValue, cpf, card, when, storeName, storeOwner);
     }
 }

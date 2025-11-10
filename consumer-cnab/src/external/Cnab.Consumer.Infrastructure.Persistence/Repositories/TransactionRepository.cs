@@ -12,9 +12,6 @@ public sealed class TransactionRepository : ITransactionRepository
     {
         _db = db;
     }
-
-    public Task<Store?> FindByNameAsync(string name, CancellationToken ct) => _db.Stores.FirstOrDefaultAsync(s => s.Name == name, ct);
-
     public async Task AddAsync(Transaction transaction, CancellationToken ct)
     {
         await _db.Transactions.AddAsync(transaction);        

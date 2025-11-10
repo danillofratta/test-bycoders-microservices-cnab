@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiBase } from './api-base';
 import { HttpClient, HttpEventType, HttpResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { GetAllTransactionsResponse } from '../dto/transaction/get-list/get-all-transaction-response';
 

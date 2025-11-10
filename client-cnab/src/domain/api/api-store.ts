@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ApiBase } from './api-base';
-import { HttpClient, HttpEventType, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { GetAllStoresResponse } from '../dto/store/get-list/get-all-store-response';
 

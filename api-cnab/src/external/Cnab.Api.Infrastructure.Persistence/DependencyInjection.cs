@@ -6,9 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Cnab.Api.Infrastructure.Persistence;
 public static class DependencyInjection
 {
-    public static IServiceCollection AddReadPersistence(this IServiceCollection services, IConfiguration cfg)
+    public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration cfg)
     {
-        var cs = cfg.GetConnectionString("ReadDatabase") ??
+        var cs = cfg.GetConnectionString("Database") ??
                  "Host=localhost;Port=5432;Database=cnab_consumer;Username=admin;Password=root";
         services.AddDbContext<AppDbContext>(o => o.UseNpgsql(cs).UseSnakeCaseNamingConvention());
 

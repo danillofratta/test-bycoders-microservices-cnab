@@ -10,13 +10,14 @@ public class CnabParserTests
     public void Parse_Should_Handle_Expense_Type()
     {
         var p = new CnabParser();
-        var line = "3201903010000010000096206760174753****3153 153000   JO√ÉO MACEDO    MERCADO DA AVENIDA  "; // type 3 => Expense
+        var line = "5201903010000013200556418150633123****7687145607MARIA JOSEFINALOJA DO ” - MATRIZ";
         var tx = p.Parse(line, out var store, out var owner);
-        tx.Type.Should().Be(3);
-        tx.Nature.Should().Be("Expense");
-        tx.Value.Should().Be(10.00m);
-        tx.SignedValue.Should().Be(-10.00m);
-        store.Should().Be("MERCADO DA AVENIDA");
-        owner.Should().Contain("JO√ÉO");
+
+        tx.Type.Should().Be(5);
+        tx.Nature.Should().Be("LoanReceipt");
+        tx.Value.Should().Be(132m);
+        tx.SignedValue.Should().Be(+132m);
+        owner.Should().Be("MARIA JOSEFINA");
+        store.Should().Be("LOJA DO ” - MATRIZ");
     }
 }

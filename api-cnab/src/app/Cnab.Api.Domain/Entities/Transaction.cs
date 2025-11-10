@@ -1,4 +1,4 @@
-namespace Cnab.Api.Domain;
+namespace Cnab.Api.Domain.Entities;
 
 public class Transaction
 {
@@ -13,7 +13,7 @@ public class Transaction
     public string StoreName { get; private set; } = string.Empty;
     public string StoreOwner { get; private set; } = string.Empty;
 
-    protected Transaction(int type, string nature, decimal value, decimal signedValue, string cpf, string card, DateTime occurredAt, string storeName, string storeOwner)
+    public Transaction(int type, string nature, decimal value, decimal signedValue, string cpf, string card, DateTime occurredAt, string storeName, string storeOwner)
     {
         Type = type;
         Nature = nature;

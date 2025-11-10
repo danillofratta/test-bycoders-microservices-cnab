@@ -23,13 +23,16 @@ public sealed class ProcessCnabLineHandler : IRequestHandler<ProcessCnabLineComm
     {
         var tx = _parser.Parse(request.Line, out var storeName, out var owner);
 
+        //existence check
         bool exists = await _transactionRepo.ExistsAsync(
             tx.Type, tx.Value, tx.Cpf, tx.Card,
             tx.OccurredAt, tx.StoreName, tx.StoreOwner, ct);
 
+        //skip if exists
         if (exists)
             return Unit.Value;
 
+        //not exists, add
         await _transactionRepo.AddAsync(tx, ct);
         await _unitOfWork.CompleteAsync();
 

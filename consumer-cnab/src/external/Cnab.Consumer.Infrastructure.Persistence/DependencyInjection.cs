@@ -10,7 +10,8 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration cfg)
     {
-        var cs = cfg.GetConnectionString("Postgres") ?? "Host=localhost;Port=5432;Database=cnab_consumer;Username=admin;Password=root";
+        var cs = cfg.GetConnectionString("Database") ??
+                 "Host=localhost;Port=5432;Database=cnab_consumer;Username=admin;Password=root";
         services.AddDbContext<AppDbContext>(o => o.UseNpgsql(cs).UseSnakeCaseNamingConvention());
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();                

@@ -30,6 +30,39 @@ export class UploadComponent implements OnInit {
     
   }
 
+  // Helper methods for template
+  get hasSelectedFile(): boolean {
+    return this.selectedFile !== null;
+  }
+
+  get selectedFileName(): string {
+    return this.selectedFile?.name || 'Clique para selecionar arquivo CNAB';
+  }
+
+  get selectedFileSize(): number {
+    return this.selectedFile?.size || 0;
+  }
+
+  get selectedFileType(): string {
+    return this.selectedFile?.type || 'Arquivo de texto';
+  }
+
+  get hasUploadStatus(): boolean {
+    return this.uploadStatus !== null;
+  }
+
+  get uploadStatusType(): string {
+    return this.uploadStatus?.type || '';
+  }
+
+  get uploadStatusMessage(): string {
+    return this.uploadStatus?.message || '';
+  }
+
+  get uploadStatusIcon(): string {
+    return this.uploadStatus?.type === 'success' ? '✅' : '❌';
+  }
+
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {

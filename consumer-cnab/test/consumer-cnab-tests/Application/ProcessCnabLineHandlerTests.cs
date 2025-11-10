@@ -1,30 +1,75 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
-using Cnab.Consumer.Application.Abstractions;
 using Cnab.Consumer.Application.Transactions.ProcessCnabLine;
+using Cnab.Consumer.Domain.Entities;
 using Cnab.Consumer.Domain.Services;
-using Cnab.Consumer.Infrastructure.Persistence;
-using Cnab.Consumer.Infrastructure.Persistence.Repositories;
+using Cnab.Consumer.Application.Abstractions;
 using FluentAssertions;
-using Microsoft.EntityFrameworkCore;
+using Moq;
 using Xunit;
+using Cnab.Consumer.Infrastructure.Persistence;
 
 namespace ConsumerCnab.Tests.Application;
+
 public class ProcessCnabLineHandlerTests
 {
     [Fact]
-    public async Task Should_Create_Store_And_Persist_Transaction()
+    public async Task Handle_When_Transaction_Exists_Should_Not_Add_Or_Complete()
     {
-        //var options = new DbContextOptionsBuilder<AppDbContext>().UseInMemoryDatabase($"db_{Guid.NewGuid()}").Options;
-        //var db = new AppDbContext(options);
-        //var repo = new StoreRepository(db);
-        //IUnitOfWork uow = db;
-        //var handler = new ProcessCnabLineHandler(new CnabParser(), repo, uow);
+        // Arrange
+        var line = "1201903010000014200096206760174753****3153 153000   JO√O MACEDO    MERCADO DA AVENIDA  ";
 
-        //var line = "1201903010000014200096206760174753****3153 153000   JO√ÉO MACEDO    MERCADO DA AVENIDA  ";
-        //await handler.Handle(new ProcessCnabLineCommand(line), default);
+        var tx = Transaction.Create(1, "Debit", 14.2m, 14.2m, "96206760174", "753****3153", DateTime.UtcNow, "MERCADO DA AVENIDA", "JO√O MACEDO");
 
-        //(await db.Stores.CountAsync()).Should().Be(1);
-        //(await db.Transactions.CountAsync()).Should().Be(1);
+        var parserMock = new Mock<ICnabParser>();
+        string outStore = tx.StoreName;
+        string outOwner = tx.StoreOwner;
+        parserMock.Setup(p => p.Parse(It.IsAny<string>(), out outStore, out outOwner)).Returns(tx);
+
+        var txRepoMock = new Mock<Cnab.Consumer.Application.Abstractions.ITransactionRepository>();
+        txRepoMock.Setup(r => r.ExistsAsync(It.IsAny<int>(), It.IsAny<decimal>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(true);
+
+        var uowMock = new Mock<IUnitOfWork>();
+
+        var handler = new ProcessCnabLineHandler(parserMock.Object, txRepoMock.Object, uowMock.Object);
+
+        // Act
+        await handler.Handle(new ProcessCnabLineCommand(line), CancellationToken.None);
+
+        // Assert
+        txRepoMock.Verify(r => r.ExistsAsync(It.IsAny<int>(), It.IsAny<decimal>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
+        txRepoMock.Verify(r => r.AddAsync(It.IsAny<Transaction>(), It.IsAny<CancellationToken>()), Times.Never);        
+    }
+
+    [Fact]
+    public async Task Handle_When_Transaction_Not_Exists_Should_Add_And_Complete()
+    {
+        // Arrange
+        var line = "1201903010000014200096206760174753****3153 153000   JO√O MACEDO    MERCADO DA AVENIDA  ";
+
+        var tx = Transaction.Create(1, "Debit", 14.2m, 14.2m, "96206760174", "753****3153", DateTime.UtcNow, "MERCADO DA AVENIDA", "JO√O MACEDO");
+
+        var parserMock = new Mock<ICnabParser>();
+        string outStore = tx.StoreName;
+        string outOwner = tx.StoreOwner;
+        parserMock.Setup(p => p.Parse(It.IsAny<string>(), out outStore, out outOwner)).Returns(tx);
+
+        var txRepoMock = new Mock<Cnab.Consumer.Application.Abstractions.ITransactionRepository>();
+        txRepoMock.Setup(r => r.ExistsAsync(It.IsAny<int>(), It.IsAny<decimal>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(false);
+        txRepoMock.Setup(r => r.AddAsync(It.IsAny<Transaction>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
+
+        var uowMock = new Mock<IUnitOfWork>();
+        uowMock.Setup(u => u.CompleteAsync()).ReturnsAsync(1);
+
+        var handler = new ProcessCnabLineHandler(parserMock.Object, txRepoMock.Object, uowMock.Object);
+
+        // Act
+        await handler.Handle(new ProcessCnabLineCommand(line), CancellationToken.None);
+
+        // Assert
+        txRepoMock.Verify(r => r.ExistsAsync(It.IsAny<int>(), It.IsAny<decimal>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
+        txRepoMock.Verify(r => r.AddAsync(It.IsAny<Transaction>(), It.IsAny<CancellationToken>()), Times.Once);
+        uowMock.Verify(u => u.CompleteAsync(), Times.Once);
     }
 }

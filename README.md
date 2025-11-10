@@ -1,8 +1,3 @@
-TODO
-- ADD unittests
-- TEST docker
-- TEST client
-
 # CNAB Microservices — DDD + CQRS + SOLID (MassTransit, PostgreSQL, Angular)
 
 3 microservices:

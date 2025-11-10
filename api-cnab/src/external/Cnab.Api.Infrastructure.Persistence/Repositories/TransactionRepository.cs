@@ -1,4 +1,5 @@
 using Cnab.Api.Domain;
+using Cnab.Api.Domain.Entities;
 using Cnab.Api.Domain.Repositories;
 using Cnab.Consumer.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;

@@ -31,6 +31,10 @@ public class TransactionsController : ControllerBase
         {
             return BadRequest(ex.Message);
         }
+        catch (Exception ex)
+        {
+            return Problem(ex.Message);
+        }
     }
 
     [HttpPost]

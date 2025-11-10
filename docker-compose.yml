@@ -5,11 +5,19 @@ services:
     restart: always
     environment:
       POSTGRES_USER: admin
-      POSTGRES_PASSWORD: root      
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: cnab_consumer
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d cnab_consumer"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
   rabbitmq:
     image: rabbitmq:4-management
     container_name: rabbitmq
@@ -17,31 +25,42 @@ services:
       - "5672:5672"
       - "15672:15672"
     healthcheck:
-      test: ["CMD", "rabbitmqctl", "status"]
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
       interval: 10s
-      timeout: 5s
-      retries: 5
+      timeout: 10s
+      retries: 10
+      start_period: 40s
 
   api:
     build: ./api-cnab
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - Rabbit__Host=rabbitmq
-      - ConnectionStrings__ReadDatabase=Host=postgres;Port=5432;Database=cnab_consumer;Username=admin;Password=root
-    depends_on: [ postgres, rabbitmq ]
-    ports: ["8080:8080"]
+      - Rabbit__Uri=amqp://guest:guest@rabbitmq:5672/
+      - ConnectionStrings__Database=Host=postgres;Port=5432;Database=cnab_consumer;Username=admin;Password=root
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
 
   consumer:
     build: ./consumer-cnab
     environment:
-      - ConnectionStrings__Postgres=Host=postgres;Port=5432;Database=cnab_consumer;Username=admin;Password=root
-      - Rabbit__Host=rabbitmq
-    depends_on: [ postgres, rabbitmq ]
+      - ConnectionStrings__Database=Host=postgres;Port=5432;Database=cnab_consumer;Username=admin;Password=root
+      - Rabbit__Uri=amqp://guest:guest@rabbitmq:5672/
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
 
   client:
     build: ./client-cnab
     depends_on: [ api ]
-    ports: ["4201:80"]
+    ports:
+      - "4201:80"
     
 volumes:
   postgres_data:

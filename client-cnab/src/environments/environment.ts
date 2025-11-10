@@ -1,8 +1,6 @@
 export const environment = {
-  production: true,
-
+  production: false,
 
   //docker
-  ApiUrlSaleCommand: 'http://localhost:5000/',
-  ApiUrlSaleQuery: 'http://localhost:7000/'
+  ApiUrl: 'http://localhost:8080/',
 };

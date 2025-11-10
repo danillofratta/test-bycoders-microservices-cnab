@@ -13,16 +13,16 @@
       />
       <label for="fileInput" class="file-input-label">
         <div class="upload-icon">📁</div>
-        <span>{{ selectedFile?.name || 'Clique para selecionar arquivo CNAB' }}</span>
+        <span>{{ selectedFileName }}</span>
       </label>
     </div>
     
     <!-- Informações do arquivo -->
-    <div class="file-info" *ngIf="selectedFile">
+    <div class="file-info" *ngIf="hasSelectedFile">
       <h3>📋 Informações do Arquivo</h3>
-      <p><strong>📄 Nome:</strong> {{ selectedFile?.name }}</p>
-      <p><strong>📏 Tamanho:</strong> {{ formatFileSize(selectedFile?.size || 0) }}</p>
-      <p><strong>🗂️ Tipo:</strong> {{ selectedFile?.type || 'Arquivo de texto' }}</p>
+      <p><strong>📄 Nome:</strong> {{ selectedFileName }}</p>
+      <p><strong>📏 Tamanho:</strong> {{ formatFileSize(selectedFileSize) }}</p>
+      <p><strong>🗂️ Tipo:</strong> {{ selectedFileType }}</p>
     </div>
     
     <!-- Botões de ação -->
@@ -30,7 +30,7 @@
       <button 
         class="btn-upload"
         (click)="uploadFile()"
-        [disabled]="!selectedFile || isUploading"
+        [disabled]="!hasSelectedFile || isUploading"
       >
         <span *ngIf="!isUploading">📤 Enviar Arquivo</span>
         <span *ngIf="isUploading">⏳ Enviando...</span>
@@ -39,7 +39,7 @@
       <button 
         class="btn-clear"
         (click)="clearFile()"
-        [disabled]="!selectedFile || isUploading"
+        [disabled]="!hasSelectedFile || isUploading"
       >
         🗑️ Limpar
       </button>
@@ -54,11 +54,11 @@
     </div>
     
     <!-- Status do upload -->
-    <div class="upload-status" *ngIf="uploadStatus">
-      <div class="status-card" [class]="uploadStatus?.type">
+    <div class="upload-status" *ngIf="hasUploadStatus">
+      <div class="status-card" [class]="uploadStatusType">
         <div class="status-content">
-          <span class="status-icon">{{ uploadStatus?.type === 'success' ? '✅' : '❌' }}</span>
-          <span class="status-message">{{ uploadStatus?.message }}</span>
+          <span class="status-icon">{{ uploadStatusIcon }}</span>
+          <span class="status-message">{{ uploadStatusMessage }}</span>
         </div>
       </div>
     </div>

@@ -3,12 +3,6 @@ using Cnab.Consumer.Infrastructure.Persistence;
 using Cnab.Consumer.Infrastructure.Persistence.Repositories;
 
 namespace Cnab.Consumer.Infrastructure.Persistence;
-
-public interface IUnitOfWork : IDisposable{    
-    ITransactionRepository TransactionRepository { get; }
-    Task<int> CompleteAsync();
-}
-
 public class UnitOfWork : IUnitOfWork
 {
     private readonly AppDbContext _context;

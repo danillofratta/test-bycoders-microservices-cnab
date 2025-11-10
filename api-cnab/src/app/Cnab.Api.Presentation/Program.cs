@@ -32,7 +32,7 @@ builder.Services.AddVersionedApiExplorer(options =>
 
 builder.Services.AddCors(o => o.AddDefaultPolicy(p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
 builder.Services.AddMessaging(builder.Configuration);
-builder.Services.AddReadPersistence(builder.Configuration);
+builder.Services.AddPersistence(builder.Configuration);
 
 builder.Services.AddMediatR(typeof(PublishCnabFileCommand).Assembly);
 
@@ -40,6 +40,31 @@ builder.Services.AddMediatR(typeof(PublishCnabFileCommand).Assembly);
 builder.Services.AddControllers();
 
 var app = builder.Build();
+
+// Ensure database is created and migrations are applied
+try 
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var context = scope.ServiceProvider.GetRequiredService<Cnab.Consumer.Infrastructure.Persistence.AppDbContext>();
+        
+        // Ensure database is created
+        context.Database.EnsureCreated();
+        
+        // Apply pending migrations
+        if (context.Database.GetPendingMigrations().Any())
+        {
+            context.Database.Migrate();
+        }
+        
+        Console.WriteLine("✅ Database initialized successfully!");
+    }
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"❌ Error initializing database: {ex.Message}");
+    Console.WriteLine("Continuing startup - database will be handled by init script...");
+}
 
 if (app.Environment.IsDevelopment())
 {

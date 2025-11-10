@@ -2,6 +2,13 @@
 
 -- DROP TABLE IF EXISTS public.transactions;
 
+CREATE SEQUENCE transactions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
 CREATE TABLE IF NOT EXISTS public.transactions
 (
     id integer NOT NULL DEFAULT nextval('transactions_id_seq'::regclass),
@@ -11,13 +18,22 @@ CREATE TABLE IF NOT EXISTS public.transactions
     signed_value numeric(18,2) NOT NULL,
     cpf character varying(11) COLLATE pg_catalog."default" NOT NULL,
     card character varying(12) COLLATE pg_catalog."default" NOT NULL,
-    occurred_at timestamp without time zone NOT NULL,
+    occurred_at timestamp with time zone NOT NULL,
     store_owner character varying COLLATE pg_catalog."default",
     store_name character varying COLLATE pg_catalog."default",
-    CONSTRAINT transactions_pkey PRIMARY KEY (id)
+    CONSTRAINT transactions_pkey PRIMARY KEY (id),
+    CONSTRAINT uq_transaction UNIQUE (type, value, cpf, card, occurred_at, store_name, store_owner)
 )
 
 TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public.transactions
     OWNER to admin;
+-- Index: uq_transaction_idx
+
+-- DROP INDEX IF EXISTS public.uq_transaction_idx;
+
+CREATE UNIQUE INDEX IF NOT EXISTS uq_transaction_idx
+    ON public.transactions USING btree
+    (type ASC NULLS LAST, value ASC NULLS LAST, cpf COLLATE pg_catalog."default" ASC NULLS LAST, card COLLATE pg_catalog."default" ASC NULLS LAST, occurred_at ASC NULLS LAST, lower(btrim(store_name::text)) COLLATE pg_catalog."default" ASC NULLS LAST, lower(btrim(store_owner::text)) COLLATE pg_catalog."default" ASC NULLS LAST)
+    TABLESPACE pg_default;

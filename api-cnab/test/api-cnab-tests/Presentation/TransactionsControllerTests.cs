@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Cnab.Api.Presentation.Controllers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace ApiCnab.Tests.Presentation;
 public class TransactionsControllerTests
@@ -24,7 +25,7 @@ public class TransactionsControllerTests
         mockSender.Setup(s => s.Send(It.IsAny<GetAllTransactionsQuery>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new List<GetAllTransactionsResponse>());
 
-        var controller = new TransactionsController(mockSender.Object);
+        var controller = new TransactionsController(mockSender.Object, NullLogger<TransactionsController>.Instance);
         var result = await controller.GetTransactions(CancellationToken.None);
 
         result.Should().BeOfType<OkObjectResult>();
@@ -37,7 +38,7 @@ public class TransactionsControllerTests
         mockSender.Setup(s => s.Send(It.IsAny<GetAllTransactionsQuery>(), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new System.ArgumentException("erro"));
 
-        var controller = new TransactionsController(mockSender.Object);
+        var controller = new TransactionsController(mockSender.Object, NullLogger<TransactionsController>.Instance);
         var result = await controller.GetTransactions(CancellationToken.None);
 
         var badrequest = Assert.IsType<BadRequestObjectResult>(result);
@@ -51,7 +52,7 @@ public class TransactionsControllerTests
         mockSender.Setup(s => s.Send(It.IsAny<PublishCnabFileCommand>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(3);
 
-        var controller = new TransactionsController(mockSender.Object);
+        var controller = new TransactionsController(mockSender.Object, NullLogger<TransactionsController>.Instance);
         // setup HttpContext with multipart form and file
         var context = new DefaultHttpContext();
 
@@ -80,7 +81,7 @@ public class TransactionsControllerTests
     public async Task Post_Without_File_Returns_BadRequest()
     {
         var mockSender = new Mock<ISender>();
-        var controller = new TransactionsController(mockSender.Object);
+        var controller = new TransactionsController(mockSender.Object, NullLogger<TransactionsController>.Instance);
         var context = new DefaultHttpContext();
         // empty form
         var form = new FormCollection(new Dictionary<string, StringValues>(), new FormFileCollection());

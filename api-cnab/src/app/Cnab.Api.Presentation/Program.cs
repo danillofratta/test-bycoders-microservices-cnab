@@ -9,19 +9,23 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add services
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Cnab API", Version = "v1" });
     c.OperationFilter<FileUploadOperationFilter>();
 });
 
+// API versioning
 builder.Services.AddApiVersioning(options =>
 {
     options.DefaultApiVersion = new ApiVersion(1, 0);
     options.AssumeDefaultVersionWhenUnspecified = true;
     options.ReportApiVersions = true;
-    options.ApiVersionReader = new UrlSegmentApiVersionReader(); 
+    options.ApiVersionReader = new UrlSegmentApiVersionReader();
 });
 
 builder.Services.AddVersionedApiExplorer(options =>
@@ -30,42 +34,34 @@ builder.Services.AddVersionedApiExplorer(options =>
     options.SubstituteApiVersionInUrl = true;
 });
 
+// Cross-origin
 builder.Services.AddCors(o => o.AddDefaultPolicy(p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
+
+// Infrastructure
 builder.Services.AddMessaging(builder.Configuration);
 builder.Services.AddPersistence(builder.Configuration);
 
+// Application
 builder.Services.AddMediatR(typeof(PublishCnabFileCommand).Assembly);
-
-// Add controllers
-builder.Services.AddControllers();
 
 var app = builder.Build();
 
-// Ensure database is created and migrations are applied
-try 
+// Apply database migrations
+using (var scope = app.Services.CreateScope())
 {
-    using (var scope = app.Services.CreateScope())
+    try
     {
-        var context = scope.ServiceProvider.GetRequiredService<Cnab.Consumer.Infrastructure.Persistence.AppDbContext>();
-        
-        // Ensure database is created
-        context.Database.EnsureCreated();
-        
-        // Apply pending migrations
-        if (context.Database.GetPendingMigrations().Any())
-        {
-            context.Database.Migrate();
-        }
-        
-        Console.WriteLine("✅ Database initialized successfully!");
+        var dbContext = scope.ServiceProvider.GetRequiredService<Cnab.Api.Infrastructure.Persistence.AppDbContext>();
+        dbContext.Database.EnsureCreated();
+        Console.WriteLine("Database initialized successfully.");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Database initialization failed: {ex.Message}");
     }
 }
-catch (Exception ex)
-{
-    Console.WriteLine($"❌ Error initializing database: {ex.Message}");
-    Console.WriteLine("Continuing startup - database will be handled by init script...");
-}
 
+// Middleware
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -73,6 +69,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors();
+app.UseAuthorization();
 
 app.MapControllers();
 

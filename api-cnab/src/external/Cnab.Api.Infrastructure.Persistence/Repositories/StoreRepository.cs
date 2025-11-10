@@ -1,7 +1,5 @@
 using Cnab.Api.Domain.Queries;
 using Cnab.Api.Domain.Repositories;
-using Cnab.Api.Infrastructure.Persistence;
-using Cnab.Consumer.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 

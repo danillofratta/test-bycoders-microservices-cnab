@@ -17,51 +17,20 @@ var host = Host.CreateDefaultBuilder(args)
     })
     .Build();
 
-// Apply migrations automatically with enhanced error handling
-try 
+// Apply database migrations
+using (var scope = host.Services.CreateScope())
 {
-    using (var scope = host.Services.CreateScope())
+    try
     {
-        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-        
-        Console.WriteLine("🔄 Checking database connection...");
-        
-        // Test database connection
-        if (db.Database.CanConnect())
-        {
-            Console.WriteLine("✅ Database connection successful!");
-            
-            // Ensure database is created
-            db.Database.EnsureCreated();
-            
-            // Apply pending migrations if any
-            var pendingMigrations = db.Database.GetPendingMigrations().ToList();
-            if (pendingMigrations.Any())
-            {
-                Console.WriteLine($"🔄 Applying {pendingMigrations.Count} pending migrations...");
-                db.Database.Migrate();
-                Console.WriteLine("✅ Migrations applied successfully!");
-            }
-            else 
-            {
-                Console.WriteLine("✅ Database is up to date!");
-            }
-        }
-        else 
-        {
-            Console.WriteLine("⚠️ Cannot connect to database. Waiting for initialization...");
-            // Wait a bit and try again
-            Thread.Sleep(5000);
-            db.Database.EnsureCreated();
-            db.Database.Migrate();
-        }
+        var dbContext = scope.ServiceProvider.GetRequiredService<Cnab.Consumer.Infrastructure.Persistence.AppDbContext>();
+        dbContext.Database.EnsureCreated();
+        Console.WriteLine("Database initialized successfully.");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Database initialization failed: {ex.Message}");
     }
 }
-catch (Exception ex)
-{
-    Console.WriteLine($"❌ Error during database initialization: {ex.Message}");
-    Console.WriteLine("The application will continue and rely on database init scripts...");
-}
 
-Console.WriteLine("🚀 Starting CNAB Consumer...");
+Console.WriteLine("Starting CNAB Consumer...");
 await host.RunAsync();

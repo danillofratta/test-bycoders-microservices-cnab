@@ -8,7 +8,7 @@ using Cnab.Consumer.Application.Abstractions;
 using FluentAssertions;
 using Moq;
 using Xunit;
-using Cnab.Consumer.Infrastructure.Persistence;
+using Microsoft.Extensions.Logging;
 
 namespace ConsumerCnab.Tests.Application;
 
@@ -30,16 +30,21 @@ public class ProcessCnabLineHandlerTests
         var txRepoMock = new Mock<Cnab.Consumer.Application.Abstractions.ITransactionRepository>();
         txRepoMock.Setup(r => r.ExistsAsync(It.IsAny<int>(), It.IsAny<decimal>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(true);
 
-        var uowMock = new Mock<IUnitOfWork>();
+        // Mock the interface, not the concrete UnitOfWork implementation
+        var uowMock = new Mock<Cnab.Consumer.Application.Abstractions.IUnitOfWork>();
+        uowMock.Setup(u => u.CompleteAsync()).ReturnsAsync(1);
 
-        var handler = new ProcessCnabLineHandler(parserMock.Object, txRepoMock.Object, uowMock.Object);
+        var loggerMock = new Mock<ILogger<ProcessCnabLineHandler>>();
+
+        var handler = new ProcessCnabLineHandler(parserMock.Object, txRepoMock.Object, uowMock.Object, loggerMock.Object);
 
         // Act
         await handler.Handle(new ProcessCnabLineCommand(line), CancellationToken.None);
 
         // Assert
         txRepoMock.Verify(r => r.ExistsAsync(It.IsAny<int>(), It.IsAny<decimal>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
-        txRepoMock.Verify(r => r.AddAsync(It.IsAny<Transaction>(), It.IsAny<CancellationToken>()), Times.Never);        
+        txRepoMock.Verify(r => r.AddAsync(It.IsAny<Transaction>(), It.IsAny<CancellationToken>()), Times.Never);
+        uowMock.Verify(u => u.CompleteAsync(), Times.Never);
     }
 
     [Fact]
@@ -59,10 +64,12 @@ public class ProcessCnabLineHandlerTests
         txRepoMock.Setup(r => r.ExistsAsync(It.IsAny<int>(), It.IsAny<decimal>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(false);
         txRepoMock.Setup(r => r.AddAsync(It.IsAny<Transaction>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
 
-        var uowMock = new Mock<IUnitOfWork>();
+        var uowMock = new Mock<Cnab.Consumer.Application.Abstractions.IUnitOfWork>();
         uowMock.Setup(u => u.CompleteAsync()).ReturnsAsync(1);
 
-        var handler = new ProcessCnabLineHandler(parserMock.Object, txRepoMock.Object, uowMock.Object);
+        var loggerMock = new Mock<ILogger<ProcessCnabLineHandler>>();
+
+        var handler = new ProcessCnabLineHandler(parserMock.Object, txRepoMock.Object, uowMock.Object, loggerMock.Object);
 
         // Act
         await handler.Handle(new ProcessCnabLineCommand(line), CancellationToken.None);
